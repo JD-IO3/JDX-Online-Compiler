@@ -15,7 +15,7 @@ JDX Online Compiler is a collaborative coding platform aimed at providing an imm
 
 - React.js for the frontend
 - WebSockets for real-time collaboration
-- Node.js for server-side operations
+- Express.js for server-side operations
 - CompileX for compilation support
 - Monaco text editor for language writing.
 
