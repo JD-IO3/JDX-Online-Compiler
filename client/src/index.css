@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:focus {
+  outline: #2121DE;
+  /* outline-color: #2121DE; */
+}
+
+body {
+  background: #000000;
+}
+
+::selection {
+  color: #000000 ;
+  background: #F3F518;
+}

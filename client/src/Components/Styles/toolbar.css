@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'pixel';
+    src: url(../../assets/fonts/puzzle-tale-pixel/Puzzle-Tale-Pixel-Regular.ttf) format(truetype);
+    font-weight: normal;
+}
+
+.tool-container {
+    position: absolute;
+    display: flex;
+    height: fit-content;
+    width: 100vw;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4em 0em;
+    /* gap: 1.3em; */
+    /* border: 2px solid red; */
+}
+
+.tool-box {
+    display: flex;
+    height: fit-content;
+    width: 12vw;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 10px;
+    /* border: 2px solid red; */
+}
+
+.logo-img {
+    position: relative;
+    height: 60px;
+    width: 100px;
+    margin: 4px 0 0 10px;
+    user-select: none;
+    /* border: 2px solid red; */
+}
+
+.popup-btn {
+    cursor: pointer;
+    height: fit-content;
+    width: fit-content;
+    padding: 0.3em 0.4em;
+    background: none;
+    border: 2px solid #ffffff;
+    font-family: 'pixel', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.8em;
+    color: #F3F518;
+    transition: 0.4s;
+}
+
+.popup-btn:hover {
+    border: 2px solid #2121DE;
+}
+
+.run-btn{
+    height: fit-content;
+    width: fit-content;
+    padding: 0 0em 0em 1em;
+    background: none;
+    /* border: 1px solid white; */
+    border: none;
+    border-radius: 10px;
+    color: white;
+    user-select: none;
+}
+
+.run-btn img {
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+}
