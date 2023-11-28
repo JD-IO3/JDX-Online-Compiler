@@ -1,10 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { v4 as uuidV4 } from 'uuid';
 import './Styles/roompopup.css'
 
-function RoomPopUp({ setPopUp }) {
+function RoomPopUp({ setPopUp, setUseName, setPlaygroundId, playgroundId  }) {
 
   const handleCloseClick = () => {
     setPopUp((prevPopUp) => prevPopUp = !prevPopUp);
+  }
+
+  const handleNewPgClick = (e) => {
+    e.preventDefault();
+    const id = uuidV4();
+    setPlaygroundId((prevplaygroundId) => prevplaygroundId = id)
   }
 
   return (
@@ -16,14 +23,14 @@ function RoomPopUp({ setPopUp }) {
             <button className='close-btn' onClick={handleCloseClick} > X </button>
           </div>
           <div className="input-box-container">
-            <input type="text" className='roomId-ip' placeholder='Enter Playground Id' />
+            <input type="text" className='roomId-ip' placeholder='Enter Playground Id' onChange={ (e) =>     setPlaygroundId((prevplaygroundId) => prevplaygroundId = e.target.value) } value={ playgroundId } />
             <input type="text" className='name-ip' placeholder='Enter Your Name' />
           </div>
           <div className="join-btn-container">
             <button className='join-btn' >Join Playground</button>
           </div>
           <div className="create-room-text">
-            <p>Doesn't have a Playground Id? <br /> <br /> Create a New, <a href='#'>Playground</a></p>
+            <p>Doesn't have a Playground Id? <br /> <br /> Create a New, <a onClick={ handleNewPgClick } href='#'>Playground</a></p>
           </div>
         </div>
       </div>

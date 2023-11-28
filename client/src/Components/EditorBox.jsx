@@ -29,7 +29,7 @@ const files = {
   },
 }
 
-const EditorBox = forwardRef(({ output, setInput, fileName }, ref) => {
+const EditorBox = forwardRef(({ output, setInput, fileName, isPlaygroundRoute }, ref) => {
   const file = files[fileName];
   const editorRef = useRef(null);
 
@@ -46,7 +46,8 @@ const EditorBox = forwardRef(({ output, setInput, fileName }, ref) => {
 
   return (
     <>
-      <div className="editor-container">
+      <div className={`editor-container ${isPlaygroundRoute ? 'editor-con-plg' : ''}`}>
+        { isPlaygroundRoute && <div className="aside"></div>}
         <div className="editor-box">
           <Editor
             height='100%'
@@ -59,7 +60,7 @@ const EditorBox = forwardRef(({ output, setInput, fileName }, ref) => {
             }}
           />
         </div>
-        <div className="res-container">
+        <div className={`res-container ${isPlaygroundRoute ? 'plg-res' : ''}`}>
           <div className="output-box">
             <h2>Output</h2>
             <textarea name="op-area" id="op-area" value={Object.keys(output) + ':\n\t' + Object.values(output)} readOnly ></textarea>

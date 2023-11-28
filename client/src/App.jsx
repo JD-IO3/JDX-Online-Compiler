@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainEditor from './Routes/MainEditor';
+import PgEditor from './Routes/PgEditor';
 
 function App() {
   const [language, setLanguage] = useState('cpp');
@@ -9,6 +11,9 @@ function App() {
   const [input, setInput] = useState(null);
   const [output, setOutput] = useState({});
   const editorRef = useRef(null);
+
+  const [playgroundId, setPlaygroundId] = useState(null);
+  const [username, setUseName] = useState(null);
 
   const getCurrentText = () => {
     if (editorRef.current) {
@@ -36,9 +41,26 @@ function App() {
 
   };
 
+  useEffect(() => {
+    return () => {
+      axios.get('http://localhost:3000/')
+        .then(function (response) {
+          setOutput(response.data)
+        })
+        .catch(function (error) {
+          setOutput(error)
+        });
+    };
+  }, [language]);
+
   return (
     <>
-      <MainEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<MainEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} setUseName={setUseName} playgroundId={playgroundId} setPlaygroundId={setPlaygroundId} />} ></Route>
+          <Route path='/playground/:pgId' element={<PgEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} setUseName={setUseName} setPlaygroundId={setPlaygroundId} />} ></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

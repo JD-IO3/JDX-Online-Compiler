@@ -52,6 +52,10 @@
     border: 2px solid #2121DE;
 }
 
+.plg {
+    display: none;
+}
+
 .run-btn{
     height: fit-content;
     width: fit-content;

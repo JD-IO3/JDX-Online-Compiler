@@ -5,22 +5,31 @@
 }
 
 .editor-container {
-    /* box-sizing: border-box; */
     position: absolute;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(48%, 1fr));
-    /* column-gap: 0%; */
+    grid-template-columns: repeat(auto-fit, minmax(48%, 1fr)); 
     column-gap: 1%;
     padding: 0 1.3em;
-    /* padding: 1.3em 0 0; */
     bottom: 0.4em;
     height: 88%;
     width: 100vw;
     /* border: 2px solid red; */
 }
 
+.editor-con-plg {
+    height: 91%;
+    grid-template-columns: 18% repeat(auto-fit, minmax(39%, 1fr));
+    column-gap: 0%;
+    padding: 1.3em 0 0;
+}
+
+.aside {
+    border: 2px solid #2121DE;
+}
+
 .editor-box {
     background: #2121DE;
+    color: #F3F518;
     border: 2px solid #2121DE;
 }
 
@@ -31,6 +40,10 @@
     gap: 2%;
     /* gap: 0%; */
     /* border: 2px solid red; */
+}
+
+.plg-res {
+    gap: 0;
 }
 
 .output-box {
