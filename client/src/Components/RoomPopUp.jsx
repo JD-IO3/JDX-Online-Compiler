@@ -2,7 +2,7 @@ import React from 'react';
 import { v4 as uuidV4 } from 'uuid';
 import './Styles/roompopup.css'
 
-function RoomPopUp({ setPopUp, setUseName, setPlaygroundId, playgroundId  }) {
+function RoomPopUp({ setPopUp, username, setUserName, setPlaygroundId, playgroundId  }) {
 
   const handleCloseClick = () => {
     setPopUp((prevPopUp) => prevPopUp = !prevPopUp);
@@ -23,8 +23,8 @@ function RoomPopUp({ setPopUp, setUseName, setPlaygroundId, playgroundId  }) {
             <button className='close-btn' onClick={handleCloseClick} > X </button>
           </div>
           <div className="input-box-container">
-            <input type="text" className='roomId-ip' placeholder='Enter Playground Id' onChange={ (e) =>     setPlaygroundId((prevplaygroundId) => prevplaygroundId = e.target.value) } value={ playgroundId } />
-            <input type="text" className='name-ip' placeholder='Enter Your Name' />
+            <input type="text" className='roomId-ip' placeholder='Enter Playground Id' onChange={ (e) => setPlaygroundId((prevplaygroundId) => prevplaygroundId = e.target.value) } value={ playgroundId } />
+            <input type="text" className='name-ip' placeholder='Enter Your Name' onChange={ (e) => setUserName((prevplaygroundId) => prevplaygroundId = e.target.value) } value={ username } />
           </div>
           <div className="join-btn-container">
             <button className='join-btn' >Join Playground</button>

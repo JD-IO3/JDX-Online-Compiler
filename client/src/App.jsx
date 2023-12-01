@@ -13,7 +13,7 @@ function App() {
   const editorRef = useRef(null);
 
   const [playgroundId, setPlaygroundId] = useState(null);
-  const [username, setUseName] = useState(null);
+  const [username, setUserName] = useState(null);
 
   const getCurrentText = () => {
     if (editorRef.current) {
@@ -57,8 +57,8 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<MainEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} setUseName={setUseName} playgroundId={playgroundId} setPlaygroundId={setPlaygroundId} />} ></Route>
-          <Route path='/playground/:pgId' element={<PgEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} setUseName={setUseName} setPlaygroundId={setPlaygroundId} />} ></Route>
+          <Route path='/' element={<MainEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} username={username} setUserName={setUserName} playgroundId={playgroundId} setPlaygroundId={setPlaygroundId} />} ></Route>
+          <Route path='/playground/:pgId' element={<PgEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} username={username} setUserName={setUserName} setPlaygroundId={setPlaygroundId} />} ></Route>
         </Routes>
       </BrowserRouter>
     </>
