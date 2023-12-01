@@ -24,7 +24,7 @@ function RoomPopUp({ setPopUp, username, setUserName, setPlaygroundId, playgroun
           </div>
           <div className="input-box-container">
             <input type="text" className='roomId-ip' placeholder='Enter Playground Id' onChange={ (e) => setPlaygroundId((prevplaygroundId) => prevplaygroundId = e.target.value) } value={ playgroundId } />
-            <input type="text" className='name-ip' placeholder='Enter Your Name' onChange={ (e) => setUserName((prevplaygroundId) => prevplaygroundId = e.target.value) } value={ username } />
+            <input type="text" className='name-ip' placeholder='Enter Your Name' onChange={ (e) => setUserName((prevusername) => prevusername = e.target.value) } value={ username } />
           </div>
           <div className="join-btn-container">
             <button className='join-btn' >Join Playground</button>
