@@ -1,5 +1,6 @@
-import React, { forwardRef, useRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useRef, useImperativeHandle, useState } from 'react';
 import { Editor } from '@monaco-editor/react';
+import Client from './Client';
 import './Styles/editor.css';
 
 const files = {
@@ -33,6 +34,14 @@ const EditorBox = forwardRef(({ output, setInput, fileName, isPlaygroundRoute },
   const file = files[fileName];
   const editorRef = useRef(null);
 
+  const [clients, setClients] = useState([
+    {socketId: 1, username: 'JD'},
+    {socketId: 2, username: 'Joe Don'},
+    {socketId: 3, username: 'JD'},
+    {socketId: 4, username: 'Joe Don'},
+    {socketId: 5, username: 'JD'},
+    {socketId: 6, username: 'Joe Don'},
+  ]);
 
   useImperativeHandle(ref, () => ({
     getCurrentText: () => {
@@ -47,7 +56,20 @@ const EditorBox = forwardRef(({ output, setInput, fileName, isPlaygroundRoute },
   return (
     <>
       <div className={`editor-container ${isPlaygroundRoute ? 'editor-con-plg' : ''}`}>
-        { isPlaygroundRoute && <div className="aside"></div>}
+        { isPlaygroundRoute && <div className="aside">
+
+            <div className="asideInner">
+              <h3>Connected</h3>
+              <div className="clientsList">
+                {
+                  clients.map(client => <Client key={client.socketId} username={client.username} />)
+                }
+              </div>
+            </div>
+            <button className="copy-btn btn">Copy Playground Id</button>
+            <button className="leave-btn btn">Leave Playground</button>
+
+          </div>}
         <div className="editor-box">
           <Editor
             height='100%'

@@ -3,7 +3,7 @@ import ToolBar from '../Components/ToolBar';
 import EditorBox from '../Components/EditorBox';
 import RoomPopUp from '../Components/RoomPopUp';
 
-function MainEditor({ language, setLanguage, fileName, setFileName, setInput, output, editorRef, handleRunClick, username, setUseName, setPlaygroundId, playgroundId }) {
+function MainEditor({ language, setLanguage, fileName, setFileName, setInput, output, editorRef, handleRunClick, username, setUserName, setPlaygroundId, playgroundId }) {
   const [popup, setPopUp] = useState(false);
 
   return (

@@ -16,6 +16,15 @@
     /* border: 2px solid #fff; */
 }
 
+/* .toast {
+    background-color: #000000;
+    color: #F3F518;
+    font-family: 'pixel', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.3rem;
+    border: 2px solid #2121DE;
+    border-radius: 0;
+} */
+
 .popup-container {
     display: flex;
     flex-direction: column;

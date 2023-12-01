@@ -12,8 +12,8 @@ function App() {
   const [output, setOutput] = useState({});
   const editorRef = useRef(null);
 
-  const [playgroundId, setPlaygroundId] = useState(null);
-  const [username, setUserName] = useState(null);
+  const [playgroundId, setPlaygroundId] = useState('');
+  const [username, setUserName] = useState('');
 
   const getCurrentText = () => {
     if (editorRef.current) {

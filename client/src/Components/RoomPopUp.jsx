@@ -1,22 +1,65 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import {toast, Toaster} from 'react-hot-toast';
 import { v4 as uuidV4 } from 'uuid';
-import './Styles/roompopup.css'
+import './Styles/roompopup.css';
 
 function RoomPopUp({ setPopUp, username, setUserName, setPlaygroundId, playgroundId  }) {
 
+  const navigate = useNavigate();
+
   const handleCloseClick = () => {
     setPopUp((prevPopUp) => prevPopUp = !prevPopUp);
+  }
+
+  const handleJoinPlayground = () => {
+    if(!playgroundId || !username){
+      toast('You Forgot Username or Playground Id?', {
+        duration: 1300,
+        position: 'top-center',
+  
+        icon: '🤨'
+      })
+    }
+
+    //?Redirect
+    navigate(`/playground/${playgroundId}`, {
+      state: {
+        username
+      }
+    })
+
   }
 
   const handleNewPgClick = (e) => {
     e.preventDefault();
     const id = uuidV4();
     setPlaygroundId((prevplaygroundId) => prevplaygroundId = id)
+
+    toast('New Playgrouond Constructed!!', {
+      duration: 1300,
+      position: 'top-center',
+
+      icon: '🤠'
+    })
   }
 
   return (
     <>
       <div className="popup-box" >
+        <div><Toaster toastOptions={
+          {
+            style: {
+              width: 'fit-content',
+              background: '#000000',
+              color: '#F3F518',
+              border: '2px solid #2121DE',
+              fontFamily: 'pixel',
+              fontSize: '1.3rem',
+              borderRadius: '0'
+            },
+          }
+        } /></div>
         <div className="popup-container">
           <div className="header-container">
             <p>PLAYGROUND</p>
@@ -27,7 +70,7 @@ function RoomPopUp({ setPopUp, username, setUserName, setPlaygroundId, playgroun
             <input type="text" className='name-ip' placeholder='Enter Your Name' onChange={ (e) => setUserName((prevusername) => prevusername = e.target.value) } value={ username } />
           </div>
           <div className="join-btn-container">
-            <button className='join-btn' >Join Playground</button>
+            <button className='join-btn' onClick={handleJoinPlayground} >Join Playground</button>
           </div>
           <div className="create-room-text">
             <p>Doesn't have a Playground Id? <br /> <br /> Create a New, <a onClick={ handleNewPgClick } href='#'>Playground</a></p>
