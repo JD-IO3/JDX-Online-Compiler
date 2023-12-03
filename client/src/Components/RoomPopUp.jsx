@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { v4 as uuidV4 } from 'uuid';
 import './Styles/roompopup.css';
 
@@ -27,7 +27,7 @@ function RoomPopUp({ setPopUp, username, setUserName, setPlaygroundId, playgroun
     if (playgroundId && username) {
       navigate(`/playground/${playgroundId}`, {
         state: {
-          username
+          username,
         }
       })
     }
@@ -50,19 +50,6 @@ function RoomPopUp({ setPopUp, username, setUserName, setPlaygroundId, playgroun
   return (
     <>
       <div className="popup-box" >
-        <div><Toaster toastOptions={
-          {
-            style: {
-              width: 'fit-content',
-              background: '#000000',
-              color: '#F3F518',
-              border: '2px solid #2121DE',
-              fontFamily: 'pixel',
-              fontSize: '1.3rem',
-              borderRadius: '0'
-            },
-          }
-        } /></div>
         <div className="popup-container">
           <div className="header-container">
             <p>PLAYGROUND</p>

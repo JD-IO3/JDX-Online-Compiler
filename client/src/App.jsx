@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import MainEditor from './Routes/MainEditor';
 import PgEditor from './Routes/PgEditor';
 
@@ -55,10 +56,23 @@ function App() {
 
   return (
     <>
+      <div><Toaster toastOptions={
+        {
+          style: {
+            width: 'fit-content',
+            background: '#000000',
+            color: '#F3F518',
+            border: '2px solid #2121DE',
+            fontFamily: 'pixel',
+            fontSize: '1.3rem',
+            borderRadius: '0'
+          },
+        }
+      } /></div>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<MainEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} username={username} setUserName={setUserName} playgroundId={playgroundId} setPlaygroundId={setPlaygroundId} />} ></Route>
-          <Route path='/playground/:pgId' element={<PgEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} username={username} setUserName={setUserName} setPlaygroundId={setPlaygroundId} />} ></Route>
+          <Route path='/playground/:playgroundId' element={<PgEditor setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} output={output} fileName={fileName} editorRef={editorRef} setInput={setInput} setOutput={setOutput} username={username} setUserName={setUserName} playgroundId={playgroundId} setPlaygroundId={setPlaygroundId} />} ></Route>
         </Routes>
       </BrowserRouter>
     </>

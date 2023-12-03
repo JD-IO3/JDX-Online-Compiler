@@ -10,7 +10,7 @@ function MainEditor({ language, setLanguage, fileName, setFileName, setInput, ou
     <>
       <ToolBar setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} setPopUp={setPopUp} />
       {popup && <RoomPopUp setPopUp={setPopUp} username={username} setUserName={setUserName} playgroundId={playgroundId} setPlaygroundId={setPlaygroundId} />}
-      <EditorBox output={output} fileName={fileName} ref={editorRef} setInput={setInput} />
+      <EditorBox output={output} fileName={fileName} ref={editorRef} setInput={setInput} username={username} playgroundId={playgroundId} />
     </>
   )
 }
