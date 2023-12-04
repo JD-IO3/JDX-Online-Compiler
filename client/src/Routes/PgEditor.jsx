@@ -12,14 +12,14 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
 
   const socketRef = useRef(null);
   const reactNavigator = useNavigate();
-  
+
   const location = useLocation();
   const isPlaygroundRoute = location.pathname.startsWith('/playground/');
 
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
-    return async () => {
+    const init = async () => {
       socketRef.current = await initSocket();
       socketRef.current.on('connect_error', (err) => handleErrors(err));
       socketRef.current.on('connect_failed', (err) => handleErrors(err));
@@ -42,18 +42,40 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
       });
 
       socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
-        if(username !== location.state?.username){
+        if (username !== location.state?.username) {
           toast(`${username} joined the PlayGround.`, {
             duration: 1300,
             position: 'top-center',
-  
+
             icon: '🤨'
           })
         }
-        setClients((prevClients) => prevClients=clients)
+        setClients((prevClients) => prevClients = clients)
+      })
+
+      //?Listening for disconnected
+      socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
+        toast(`${username} left the PlayGround.`, {
+          duration: 1300,
+          position: 'top-center',
+
+          icon: '🤨'
+        })
+        setClients((prevClients) => { 
+          return prevClients.filter(client => client.socketId !== socketId) 
+        })
       })
 
     };
+
+    init();
+
+    return () => {
+      socketRef.current.off(ACTIONS.JOINED);
+      socketRef.current.off(ACTIONS.DISCONNECTED);
+      socketRef.current.disconnect();
+    }
+
   }, []);
 
 
