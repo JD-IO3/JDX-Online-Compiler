@@ -19,8 +19,8 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
-    const init = async () => {
-      socketRef.current = await initSocket();
+    function init() {
+      socketRef.current = initSocket();
       socketRef.current.on('connect_error', (err) => handleErrors(err));
       socketRef.current.on('connect_failed', (err) => handleErrors(err));
 
@@ -61,24 +61,22 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
 
           icon: '🤨'
         })
-        setClients((prevClients) => { 
-          return prevClients.filter(client => client.socketId !== socketId) 
+        setClients((prevClients) => {
+          return prevClients.filter(client => client.socketId !== socketId)
         })
       })
-
     };
 
     init();
 
     return () => {
+
       socketRef.current.off(ACTIONS.JOINED);
       socketRef.current.off(ACTIONS.DISCONNECTED);
       socketRef.current.disconnect();
-    }
 
+    };
   }, []);
-
-
 
   if (isPlaygroundRoute) {
     if (!location.state) {
@@ -89,7 +87,7 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
   return (
     <>
       <ToolBar setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} isPlaygroundRoute={isPlaygroundRoute} />
-      <EditorBox output={output} fileName={fileName} ref={editorRef} setInput={setInput} isPlaygroundRoute={isPlaygroundRoute} playgroundId={playgroundId} username={username} location={location} clients={clients} />
+      <EditorBox output={output} fileName={fileName} ref={editorRef} setInput={setInput} isPlaygroundRoute={isPlaygroundRoute} playgroundId={playgroundId} username={username} location={location} socketRef={socketRef} clients={clients} />
     </>
   )
 }

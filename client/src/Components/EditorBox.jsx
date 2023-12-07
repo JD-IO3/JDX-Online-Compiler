@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
+import React, { forwardRef, useRef, useImperativeHandle,useState, useEffect } from 'react';
 import { Editor } from '@monaco-editor/react';
 import Client from './Client';
 import './Styles/editor.css';
@@ -34,6 +34,7 @@ const files = {
 const EditorBox = forwardRef(({ output, setInput, fileName, isPlaygroundRoute, clients }, ref) => {
   const file = files[fileName];
   const editorRef = useRef(null);
+  // const [isUserChange, setIsUserChange] = useState(false);
 
   useImperativeHandle(ref, () => ({
     getCurrentText: () => {
@@ -41,32 +42,30 @@ const EditorBox = forwardRef(({ output, setInput, fileName, isPlaygroundRoute, c
     },
   }));
 
-  useEffect(() => {
-    if (editorRef.current) {
-      const editor = editorRef.current;
+  if (isPlaygroundRoute) {
+    useEffect(() => {
+      if (editorRef.current) {
+        const editor = editorRef.current;
+  
+        console.log('Attaching onDidChangeModelContent event');
+  
+        const onChangeModelContent = (event) => {
+          console.log('Editor content changed:', event);
+          const currentContent = editor.getValue();
+          console.log('Current content:', currentContent);
+  
+        };
+  
+        editor.onDidChangeModelContent(onChangeModelContent);
+  
+        return () => {
+          editor.dispose(); 
+          console.log('Detaching onDidChangeModelContent event');
+        };
+      }
+    }, [editorRef.current]);
+  }
 
-      // Log when onDidChangeModelContent is attached
-      console.log('Attaching onDidChangeModelContent event');
-
-      // Attach a listener to the onDidChangeModelContent event
-      const onChangeModelContent = (event) => {
-        console.log('Editor content changed:', event);
-        const currentContent = editor.getValue();
-        console.log('Current content:', currentContent);
-
-        // Perform any additional actions based on the content change
-        // For example, send the updated content to a server, update a preview, etc.
-      };
-
-      editor.onDidChangeModelContent(onChangeModelContent);
-
-      // Clean up the listener when the component is unmounted
-      return () => {
-        console.log('Detaching onDidChangeModelContent event');
-        editor.offDidChangeModelContent(onChangeModelContent);
-      };
-    }
-  }, []);
 
   const handleInputChange = event => {
     setInput(event.target.value);
@@ -98,7 +97,6 @@ const EditorBox = forwardRef(({ output, setInput, fileName, isPlaygroundRoute, c
             value={file.value}
             onMount={(editor) => {
               editorRef.current = editor;
-              console.log(editorRef.current)
             }}
           />
         </div>

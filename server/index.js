@@ -108,13 +108,13 @@ app.post('/compile', (req, res) => {
 
 })
 
+
 //?Socket.io APIs..
 const userSocketMap = {};
 
 function getAllConnectedClients(playgroundId) {
     return Array.from(io.sockets.adapter.rooms.get(playgroundId) || []).map((socketId) => {
         return {
-            playgroundId,
             socketId,
             username: userSocketMap[socketId],
 
@@ -128,9 +128,6 @@ io.on('connection', (socket) => {
     import('../client/src/socket/actions.js').then(module => {
         const ACTIONS = module.default || module;
 
-        // Now you can use ACTIONS here
-        // console.log(ACTIONS);
-        // ... rest of your code using ACTIONS
         socket.on(ACTIONS.JOIN, ({ playgroundId, username }) => {
             userSocketMap[socket.id] = username
             socket.join(playgroundId)
@@ -155,9 +152,10 @@ io.on('connection', (socket) => {
                     username: userSocketMap[socket.id],
                 });
             })
-
+            
             delete userSocketMap[socket.id];
             socket.leave();
+            console.log('Disconnected -> ', socket.id)
 
         })
 
