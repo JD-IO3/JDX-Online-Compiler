@@ -18,7 +18,7 @@ app.use(cors())
 
 //?APIs for Compilation...
 
-app.get('/', (req, res) => {
+app.get('/flush', (req, res) => {
     compiler.flush(() => console.log('deleted'))
 })
 
@@ -132,7 +132,7 @@ io.on('connection', (socket) => {
             userSocketMap[socket.id] = username
             socket.join(playgroundId)
             const clients = getAllConnectedClients(playgroundId)
-            // console.log(clients)
+            console.log(clients)
             clients.forEach(({ socketId }) => {
                 io.to(socketId).emit(ACTIONS.JOINED, {
                     clients,
@@ -141,6 +141,10 @@ io.on('connection', (socket) => {
                 })
             })
 
+        })
+
+        socket.on(ACTIONS.CODE_CHANGE, ({ playgroundId, currentContent }) => {
+            socket.in(playgroundId).emit(ACTIONS.CODE_CHANGE, { currentContent });
         })
 
         socket.on('disconnecting', () => {

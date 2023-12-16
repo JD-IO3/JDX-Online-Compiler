@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -42,17 +42,7 @@ function App() {
 
   };
 
-  useEffect(() => {
-    return () => {
-      axios.get('http://localhost:3000/')
-        .then(function (response) {
-          setOutput(response.data)
-        })
-        .catch(function (error) {
-          setOutput(error)
-        });
-    };
-  }, [language]);
+  
 
   return (
     <>

@@ -18,6 +18,7 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
 
   const [clients, setClients] = useState([]);
 
+
   useEffect(() => {
     function init() {
       socketRef.current = initSocket();
@@ -36,10 +37,14 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
         reactNavigator('/');
       }
 
-      socketRef.current.emit(ACTIONS.JOIN, {
-        playgroundId,
-        username: location.state?.username
-      });
+      socketRef.current.on('connect', () => {
+        // console.log('connect', socketRef.current.connected);
+        // automatically join the room
+        socketRef.current.emit(ACTIONS.JOIN, {
+          playgroundId,
+          username: location.state?.username
+        });
+       });
 
       socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
         if (username !== location.state?.username) {
@@ -51,6 +56,7 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
           })
         }
         setClients((prevClients) => prevClients = clients)
+        console.log(socketId)
       })
 
       //?Listening for disconnected
@@ -61,20 +67,27 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
 
           icon: '🤨'
         })
+        console.log('disconnected -> ', socketId)
         setClients((prevClients) => {
           return prevClients.filter(client => client.socketId !== socketId)
         })
       })
+      // console.log(1);
     };
 
     init();
+    // console.log(2);
 
     return () => {
-
-      socketRef.current.off(ACTIONS.JOINED);
-      socketRef.current.off(ACTIONS.DISCONNECTED);
-      socketRef.current.disconnect();
-
+      // console.log(3);
+      if(socketRef.current){
+        socketRef.current.off('connect_error');
+        socketRef.current.off('connect_failed');
+        socketRef.current.off(ACTIONS.JOINED);
+        socketRef.current.off(ACTIONS.DISCONNECTED);
+        socketRef.current.disconnect();
+      }
+      
     };
   }, []);
 
@@ -87,7 +100,7 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
   return (
     <>
       <ToolBar setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} isPlaygroundRoute={isPlaygroundRoute} />
-      <EditorBox output={output} fileName={fileName} ref={editorRef} setInput={setInput} isPlaygroundRoute={isPlaygroundRoute} playgroundId={playgroundId} username={username} location={location} socketRef={socketRef} clients={clients} />
+      <EditorBox output={output} fileName={fileName} ref={editorRef} setInput={setInput} isPlaygroundRoute={isPlaygroundRoute} playgroundId={playgroundId} username={username} location={location} socketRef={socketRef} reactNavigator={reactNavigator} clients={clients} />
     </>
   )
 }

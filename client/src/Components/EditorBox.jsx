@@ -1,7 +1,9 @@
-import React, { forwardRef, useRef, useImperativeHandle,useState, useEffect } from 'react';
+import React, { forwardRef, useRef, useImperativeHandle, useState, useEffect } from 'react';
 import { Editor } from '@monaco-editor/react';
+import { toast } from 'react-hot-toast';
 import Client from './Client';
 import './Styles/editor.css';
+import ACTIONS from '../socket/actions';
 
 
 const files = {
@@ -31,45 +33,85 @@ const files = {
   },
 }
 
-const EditorBox = forwardRef(({ output, setInput, fileName, isPlaygroundRoute, clients }, ref) => {
+const EditorBox = forwardRef(({ output, setInput, fileName, playgroundId, isPlaygroundRoute, socketRef, clients, reactNavigator }, ref) => {
   const file = files[fileName];
   const editorRef = useRef(null);
-  // const [isUserChange, setIsUserChange] = useState(false);
-
+  
   useImperativeHandle(ref, () => ({
     getCurrentText: () => {
       return editorRef.current ? editorRef.current.getValue() : '';
     },
   }));
 
+  const initializeEditor = () => {
+    const editor = editorRef.current;
+  
+    if (editor) {
+      const onChangeModelContent = () => {
+        const currentContent = editor.getValue();
+        // console.log('Current content:', currentContent);
+  
+        socketRef.current.emit(ACTIONS.CODE_CHANGE, { playgroundId, currentContent });
+      };
+  
+      editor.onDidChangeModelContent(onChangeModelContent);
+  
+      return () => {
+        editor.dispose();
+        console.log('Detaching onDidChangeModelContent event');
+      };
+    }
+  };
+
   if (isPlaygroundRoute) {
+
+
     useEffect(() => {
-      if (editorRef.current) {
-        const editor = editorRef.current;
+      // editorRef.current = window.localStorage.getItem(editorValue)
+      initializeEditor()
+      
+    }, []);
+
+    useEffect(() => {
+      const editor = editorRef.current;
   
-        console.log('Attaching onDidChangeModelContent event');
-  
-        const onChangeModelContent = (event) => {
-          console.log('Editor content changed:', event);
-          const currentContent = editor.getValue();
-          console.log('Current content:', currentContent);
-  
-        };
-  
-        editor.onDidChangeModelContent(onChangeModelContent);
-  
-        return () => {
-          editor.dispose(); 
-          console.log('Detaching onDidChangeModelContent event');
-        };
+      if (editor && socketRef.current) {
+        socketRef.current.on(ACTIONS.CODE_CHANGE, ({ currentContent}) => {
+          if (currentContent !== null && currentContent !== editor.getValue()) {
+            // changeFlag = false
+            // console.log(1);
+            editorRef.current.setValue(currentContent)
+          }
+        })
       }
-    }, [editorRef.current]);
+      return () => {
+        
+      };
+    }, [editorRef.current, socketRef.current]);
   }
 
 
   const handleInputChange = event => {
     setInput(event.target.value);
   };
+
+  const copyPlaygroundId = async () => {
+    try {
+      await navigator.clipboard.writeText(playgroundId);
+      toast('PlaygroundId has been copied to your clipboard.', {
+        duration: 1300,
+        position: 'top-center',
+
+        icon: '🤨'
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const leavePlayground = () => {
+    reactNavigator('/');
+  }
 
   return (
     <>
@@ -84,8 +126,8 @@ const EditorBox = forwardRef(({ output, setInput, fileName, isPlaygroundRoute, c
               }
             </div>
           </div>
-          <button className="copy-btn btn">Copy Playground Id</button>
-          <button className="leave-btn btn">Leave Playground</button>
+          <button className="copy-btn btn" onClick={copyPlaygroundId} >Copy Playground Id</button>
+          <button className="leave-btn btn" onClick={leavePlayground}>Leave Playground</button>
 
         </div>}
         <div className="editor-box">
@@ -97,6 +139,8 @@ const EditorBox = forwardRef(({ output, setInput, fileName, isPlaygroundRoute, c
             value={file.value}
             onMount={(editor) => {
               editorRef.current = editor;
+              // console.log(editorRef);
+              initializeEditor()
             }}
           />
         </div>
