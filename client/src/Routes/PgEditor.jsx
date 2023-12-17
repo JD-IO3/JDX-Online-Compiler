@@ -99,7 +99,7 @@ function PgEditor({ language, setLanguage, fileName, setFileName, setInput, outp
 
   return (
     <>
-      <ToolBar setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} isPlaygroundRoute={isPlaygroundRoute} />
+      <ToolBar setLanguage={setLanguage} setFileName={setFileName} handleRunClick={handleRunClick} isPlaygroundRoute={isPlaygroundRoute} socketRef={socketRef} playgroundId={playgroundId} />
       <EditorBox output={output} fileName={fileName} ref={editorRef} setInput={setInput} isPlaygroundRoute={isPlaygroundRoute} playgroundId={playgroundId} username={username} location={location} socketRef={socketRef} reactNavigator={reactNavigator} clients={clients} />
     </>
   )

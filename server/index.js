@@ -147,6 +147,11 @@ io.on('connection', (socket) => {
             socket.in(playgroundId).emit(ACTIONS.CODE_CHANGE, { currentContent });
         })
 
+        socket.on(ACTIONS.LANGUAGE_CHANGE, ({ playgroundId, currentLanguage }) => {
+            console.log(currentLanguage);
+            socket.in(playgroundId).emit(ACTIONS.LANGUAGE_CHANGE, { currentLanguage })
+        })
+
         socket.on('disconnecting', () => {
             const playgrounds = [...socket.rooms]
 

@@ -69,6 +69,12 @@ const EditorBox = forwardRef(({ output, setInput, fileName, playgroundId, isPlay
     useEffect(() => {
       // editorRef.current = window.localStorage.getItem(editorValue)
       initializeEditor()
+
+      return () => {
+        if (socketRef.current) {
+          socketRef.current.off(ACTIONS.CODE_CHANGE);
+        }
+      }
       
     }, []);
 
