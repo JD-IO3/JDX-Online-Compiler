@@ -148,7 +148,6 @@ io.on('connection', (socket) => {
         })
 
         socket.on(ACTIONS.LANGUAGE_CHANGE, ({ playgroundId, currentLanguage }) => {
-            // console.log(currentLanguage);
             socket.in(playgroundId).emit(ACTIONS.LANGUAGE_CHANGE, { currentLanguage })
         })
 

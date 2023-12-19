@@ -5,7 +5,7 @@ import ACTIONS from '../socket/actions';
 /*
 ?Styles To Be Applied...!!!
 */
-//colors
+//!colors
 const pricolor = '#000000';
 const darkpri = '#2121DE';
 const yellow = '#F3F518';
@@ -101,22 +101,45 @@ const options = [
 */
 export default function LangSelect({ setLanguage, setFileName, playgroundId, socketRef, isPlaygroundRoute }) {
 
+    const [selectedLanguage, setSelectedLanguage] = useState(options[0]);
 
     const handleChange = (selectedOption) => {
         setLanguage((prevLanguage) => prevLanguage = selectedOption.value);
         setFileName((prevFileName) => prevFileName = selectedOption.value);
+        
+        const currentLanguage = selectedOption;
+        
+        setSelectedLanguage((prev) => prev = selectedOption);
+        if (socketRef.current) {
+            socketRef.current.emit(ACTIONS.LANGUAGE_CHANGE, ({ playgroundId, currentLanguage }))
+            console.log('current emitted language -> ', currentLanguage);            
+        }
     };
+
+    if (isPlaygroundRoute) {
+
+        useEffect(() => {
+
+            if (socketRef.current) {
+                socketRef.current.on(ACTIONS.LANGUAGE_CHANGE, ({ currentLanguage }) => {
+                    console.log('Listened -> ', currentLanguage);
+                    if (currentLanguage !== null && currentLanguage !== selectedLanguage) {
+                        setSelectedLanguage((prev) => prev = currentLanguage)
+                    }
+                })
+            }
+
+        }, [selectedLanguage, socketRef.current]);
+
+    }
 
 
     return (
         <>
             <Select
                 onChange={handleChange}
-                // className="basic-single"
                 styles={customStyles}
-                classNamePrefix="select"
-                defaultValue={options[0]}
-                // name="color"
+                value={selectedLanguage}
                 options={options}
                 isSearchable
             />
