@@ -14,7 +14,7 @@ JDX Online Compiler is a collaborative coding platform aimed at providing an imm
 ## Tech Stack
 
 - React.js for the frontend
-- WebSockets for real-time collaboration
+- WebSockets (socket.io) for real-time collaboration
 - Express.js for server-side operations
 - CompileX for compilation support
 - Monaco text editor for language writing.
@@ -22,10 +22,10 @@ JDX Online Compiler is a collaborative coding platform aimed at providing an imm
 ## How to Use
 
 1. Clone the repository.
-2. Install dependencies in both client and server directory using `npm install`.
-3. Add this script in `package.json` of server -> `"jd": "nodemon index.js"`
-4. Start the client side with `npm run dev` and server with `npm run jd`.
-5. Access the application in your web browser at `http://localhost:5173`.
+2. Install dependencies in both the client and server directories using `npm install`.
+3. Add this script in `package.json` of server -> `"server:dev": "nodemon index.js"`
+4. Start the client side with `npm run dev` and the server with `npm run server:dev`.
+5. Access the application in your web browser at `http://localhost:PORT`.
 
 ## Project Status
 
