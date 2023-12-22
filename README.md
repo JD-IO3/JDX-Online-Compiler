@@ -33,5 +33,5 @@ This project is currently in active development, with a focus on enhancing colla
 
 ## Social
 
-- LinkedIn -> www.linkedin.com/in/jaydeep-khandla
-- Leetcode -> https://leetcode.com/jd_io/
+- LinkedIn -> linkedin.com/in/jaydeep-khandla
+- Leetcode -> leetcode.com/jd_io/
